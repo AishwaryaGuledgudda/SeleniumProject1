@@ -1,15 +1,17 @@
 package com.package1;
 
+import com.AbstractCompanents.AbstractCompanent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
+public class LoginPage extends AbstractCompanent {
     WebDriver driver ;
     public LoginPage(WebDriver driver) {
-
+        //inorder to send the driver as argument to Parent AbstractCompanent user Super
+        super(driver);
         this.driver = driver;
         PageFactory.initElements(driver,this);
 
