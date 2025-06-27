@@ -1,12 +1,14 @@
 package com.project1;
 
 import com.package1.LoginPage;
+import com.package1.ProductCatalog;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
@@ -21,18 +23,17 @@ public class SubmitOrderTest {
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoginPage loginPage = new LoginPage(driver);
-        //Login to Application
+        //Login
         loginPage.goTo();
         loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        List<WebElement> products = driver.findElements(By.cssSelector(".mb-3"));
-        WebElement zaraProduct =  products.stream().filter(product->product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3")).findFirst().orElse(null); // when each product is iterated it is stored in product variable
-        // stream helps to iterate through the list of products
-        assert zaraProduct != null;
-        zaraProduct.findElement(By.cssSelector(".card-body button:last-of-type")).click();
-        Thread.sleep(5000);
-        //wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector("[routerlink*='cart']"))));
-        driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
+        //ProductCatalog
+        ProductCatalog productCatalog = new ProductCatalog(driver);
+        List<WebElement>products = productCatalog.getProductList();
+        productCatalog.getProductByName("ZARA COAT 3");
+        productCatalog.addProductToCart("ZARA COAT 3");
+        //AbstractCompanent
+        //calling the method using child object
+        productCatalog.goToCartPage();
        // driver.quit();
         List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
         Boolean match = cartProducts.stream().anyMatch(cartProduct->cartProduct.getText().equalsIgnoreCase("ZARA COAT 3"));
