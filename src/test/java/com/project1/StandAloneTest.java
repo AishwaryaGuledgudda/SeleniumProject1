@@ -39,7 +39,6 @@ public class StandAloneTest {
         Thread.sleep(5000);
         //wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector("[routerlink*='cart']"))));
         driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
-       // driver.quit();
         List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
         Boolean match = cartProducts.stream().anyMatch(cartProduct->cartProduct.getText().equalsIgnoreCase("ZARA COAT 3"));
         //anyMatch looks for the element if matches it returns Boolean value

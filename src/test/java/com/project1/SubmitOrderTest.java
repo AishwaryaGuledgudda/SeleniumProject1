@@ -1,5 +1,6 @@
 package com.project1;
 
+import com.package1.CartPage;
 import com.package1.LoginPage;
 import com.package1.ProductCatalog;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -23,10 +24,10 @@ public class SubmitOrderTest {
         WebDriver driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoginPage loginPage = new LoginPage(driver);
-        //Login
+        //*****Login*****//
         loginPage.goTo();
         loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
-        //ProductCatalog
+        //*****ProductCatalog*****//
         ProductCatalog productCatalog = new ProductCatalog(driver);
         List<WebElement>products = productCatalog.getProductList();
         productCatalog.getProductByName("ZARA COAT 3");
@@ -34,15 +35,14 @@ public class SubmitOrderTest {
         //AbstractCompanent
         //calling the method using child object
         productCatalog.goToCartPage();
-       // driver.quit();
-        List<WebElement> cartProducts = driver.findElements(By.cssSelector(".cartSection h3"));
-        Boolean match = cartProducts.stream().anyMatch(cartProduct->cartProduct.getText().equalsIgnoreCase("ZARA COAT 3"));
+        //CartPage
+        CartPage cartPage = new CartPage(driver);
+        Boolean match = cartPage.verifyProductDisplaying();
         //anyMatch looks for the element if matches it returns Boolean value
         Assert.assertTrue(match);
-        //if match has "true" value then test passses if "false" then the TC fails
-        driver.findElement(By.cssSelector(".totalRow button")).click();
-
+        cartPage.goToCheckOut();
         //Using Action Class to send keys to dropdown
+        //*****CheckOutPage*****//
         Actions a = new Actions(driver);
         a.sendKeys(driver.findElement(By.cssSelector("input[placeholder='Select Country']")),"india").build().perform();
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ta-results")));
