@@ -19,7 +19,7 @@ public class ConfirmationPage extends AbstractCompanent {
     @FindBy(css = ".hero-primary")
     WebElement confirmationTestEle;
 
-    public String verifyConfirmationMessage(){
+    public String getConfirmationMessage(){
         return confirmationTestEle.getText();
     }
 }

@@ -1,8 +1,6 @@
 package com.project1;
 
-import com.package1.CartPage;
-import com.package1.LoginPage;
-import com.package1.ProductCatalog;
+import com.package1.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,10 +30,10 @@ public class SubmitOrderTest {
         List<WebElement>products = productCatalog.getProductList();
         productCatalog.getProductByName("ZARA COAT 3");
         productCatalog.addProductToCart("ZARA COAT 3");
-        //AbstractCompanent
+        //*****AbstractCompanent*****//
         //calling the method using child object
         productCatalog.goToCartPage();
-        //CartPage
+        //*****CartPage*****//
         CartPage cartPage = new CartPage(driver);
         Boolean match = cartPage.verifyProductDisplaying();
         //anyMatch looks for the element if matches it returns Boolean value
@@ -43,16 +41,15 @@ public class SubmitOrderTest {
         cartPage.goToCheckOut();
         //Using Action Class to send keys to dropdown
         //*****CheckOutPage*****//
-        Actions a = new Actions(driver);
-        a.sendKeys(driver.findElement(By.cssSelector("input[placeholder='Select Country']")),"india").build().perform();
+        CheckOutPage checkOutPage = new CheckOutPage(driver);
+        checkOutPage.selectCountry("India");
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ta-results")));
         Thread.sleep(5000);
-        driver.findElement(By.xpath("(//button[contains(@class,'ta-item')])[2]")).click();
-        driver.findElement(By.cssSelector(".action__submit")).click();
-        String confirmMsg = driver.findElement(By.cssSelector(".hero-primary")).getText();
+        checkOutPage.submitOrder();
+        //*****ConfirmationPage*****//
+        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
+        String confirmMsg = confirmationPage.getConfirmationMessage();
         Assert.assertTrue(confirmMsg.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
         driver.close();
-
-
     }
 }
