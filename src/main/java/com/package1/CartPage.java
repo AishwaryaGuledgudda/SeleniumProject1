@@ -27,9 +27,11 @@ public class CartPage extends AbstractCompanent {
         return match;
     }
 
-    public void goToCheckOut(){
+    public CheckOutPage goToCheckOut(){
         //if match has "true" value then test passses if "false" then the TC fails
         checkOutele.click();
+        CheckOutPage checkOutPage = new CheckOutPage(driver);
+        return checkOutPage;
 
     }
 }

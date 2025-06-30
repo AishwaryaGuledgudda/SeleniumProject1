@@ -30,8 +30,10 @@ public class CheckOutPage extends AbstractCompanent {
         driver.findElement(By.xpath("(//button[contains(@class,'ta-item')])[2]")).click();
     }
 
-    public void submitOrder(){
+    public ConfirmationPage submitOrder(){
         submit.click();
+        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
+        return confirmationPage;
     }
 
 

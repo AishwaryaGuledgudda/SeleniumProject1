@@ -1,7 +1,6 @@
 package com.package1;
 
 import com.AbstractCompanents.AbstractCompanent;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,13 +28,16 @@ public class LoginPage extends AbstractCompanent {
     @FindBy(id="login")
     WebElement loginButton ;
 
-    public void loginApplication(String email, String password){
+    public ProductCatalog loginApplication(String email, String password){
         userEmail.sendKeys(email);
         userPassword.sendKeys(password);
         loginButton.click();
+        ProductCatalog productCatalog = new ProductCatalog(driver);
+        return productCatalog;
     }
     public void goTo(){
         driver.get("https://rahulshettyacademy.com/client");
+
     }
 
 

@@ -1,53 +1,43 @@
-package com.project1;
+package com.project1Test;
 
 import com.package1.*;
+import com.project1Test.TestComponents.BaseTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
-public class SubmitOrderTest {
-    public static void main(String[] args) throws InterruptedException {
+public class SubmitOrderTest extends BaseTest {
+    @Test
+            public void submitrder() throws IOException, InterruptedException {
         // Import WebDriverManager from github link its not available on MavenRepo
-        WebDriverManager.chromedriver().setup();
-        //Chrome driver will be automatically downloaded (latest version used on laptop)
-        WebDriver driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        LoginPage loginPage = new LoginPage(driver);
         //*****Login*****//
-        loginPage.goTo();
-        loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
+        ProductCatalog productCatalog = loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
         //*****ProductCatalog*****//
-        ProductCatalog productCatalog = new ProductCatalog(driver);
         List<WebElement>products = productCatalog.getProductList();
         productCatalog.getProductByName("ZARA COAT 3");
         productCatalog.addProductToCart("ZARA COAT 3");
         //*****AbstractCompanent*****//
         //calling the method using child object
-        productCatalog.goToCartPage();
+        CartPage cartPage = productCatalog.goToCartPage();
         //*****CartPage*****//
-        CartPage cartPage = new CartPage(driver);
         Boolean match = cartPage.verifyProductDisplaying();
         //anyMatch looks for the element if matches it returns Boolean value
         Assert.assertTrue(match);
-        cartPage.goToCheckOut();
+        CheckOutPage checkOutPage = cartPage.goToCheckOut();
         //Using Action Class to send keys to dropdown
         //*****CheckOutPage*****//
-        CheckOutPage checkOutPage = new CheckOutPage(driver);
         checkOutPage.selectCountry("India");
         //wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("ta-results")));
         Thread.sleep(5000);
-        checkOutPage.submitOrder();
+        ConfirmationPage confirmationPage = checkOutPage.submitOrder();
         //*****ConfirmationPage*****//
-        ConfirmationPage confirmationPage = new ConfirmationPage(driver);
         String confirmMsg = confirmationPage.getConfirmationMessage();
         Assert.assertTrue(confirmMsg.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
         driver.close();
