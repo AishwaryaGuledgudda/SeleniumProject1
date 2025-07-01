@@ -40,6 +40,5 @@ public class SubmitOrderTest extends BaseTest {
         //*****ConfirmationPage*****//
         String confirmMsg = confirmationPage.getConfirmationMessage();
         Assert.assertTrue(confirmMsg.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
-        driver.close();
     }
 }

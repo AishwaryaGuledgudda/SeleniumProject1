@@ -4,6 +4,7 @@ import com.package1.LoginPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.FileInputStream;
@@ -39,5 +40,10 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         loginPage.goTo();
         return loginPage;
+    }
+
+    @AfterMethod
+    public void tearDown(){
+        driver.close();
     }
 }
