@@ -2,20 +2,16 @@ package com.project1Test;
 
 import com.package1.*;
 import com.project1Test.TestComponents.BaseTest;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.List;
 
 public class SubmitOrderTest extends BaseTest {
     @Test
-            public void submitrder() throws IOException, InterruptedException {
+            public void submitOrder() throws IOException, InterruptedException {
         // Import WebDriverManager from github link its not available on MavenRepo
         //*****Login*****//
         ProductCatalog productCatalog = loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
@@ -40,5 +36,13 @@ public class SubmitOrderTest extends BaseTest {
         //*****ConfirmationPage*****//
         String confirmMsg = confirmationPage.getConfirmationMessage();
         Assert.assertTrue(confirmMsg.equalsIgnoreCase("THANKYOU FOR THE ORDER."));
+    }
+
+    //selenium makes sure that the submitOrder() method is ran before running this method dependsOnMethods = "submitOrder"
+    @Test(dependsOnMethods = "submitOrder")
+    public void orderHistoryTest() throws InterruptedException {
+        ProductCatalog productCatalog = loginPage.loginApplication("abg@gmail.com", "qwerty123456!A");
+        OrderPage orderPage = productCatalog.goToOrderPage();
+        Assert.assertTrue(orderPage.verifyProductDisplaying());
     }
 }

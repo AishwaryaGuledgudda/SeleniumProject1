@@ -1,6 +1,7 @@
 package com.AbstractCompanents;
 
 import com.package1.CartPage;
+import com.package1.OrderPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,8 +19,13 @@ public class AbstractCompanent {
         this.driver = driver ;
         PageFactory.initElements(driver,this);
     }
+
+
     @FindBy(css="[routerlink*='cart']")
     WebElement cartButton;
+
+    @FindBy(css="[routerlink*='myorders']")
+    WebElement orderButton;
 
     public void waitForElementToAppear(By findBy) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -36,5 +42,13 @@ public class AbstractCompanent {
         CartPage cartPage = new CartPage(driver);
         return cartPage;
     }
+
+    public OrderPage goToOrderPage() throws InterruptedException {
+        orderButton.click();
+        OrderPage orderPage = new OrderPage(driver);
+        return orderPage;
+    }
+
+
 
 }
