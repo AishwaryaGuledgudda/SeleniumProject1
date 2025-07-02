@@ -32,7 +32,7 @@ public class ProductCatalog extends AbstractCompanent {
     }
     public WebElement getProductByName(String productName){ //User can send the productName and this method finds the product using the name
         WebElement zaraProduct =  products.stream().filter(product->
-                product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3")).findFirst().orElse(null);
+                product.findElement(By.cssSelector("b")).getText().equals(productName)).findFirst().orElse(null);
         // stream helps to iterate through the list of products
         // when each product is iterated it is stored in product variable
         return zaraProduct;
